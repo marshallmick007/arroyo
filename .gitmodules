@@ -1,0 +1,6 @@
+[submodule "lib/timerizer"]
+	path = lib/timerizer
+	url = https://github.com/kylewlacy/timerizer.git
+[submodule "lib/github-ds"]
+	path = lib/github-ds
+	url = https://github.com/github/github-ds.git
