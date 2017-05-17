@@ -45,12 +45,45 @@ Arroyo::Backtrace.show_only_app_exceptions!(File.dirname(__FILE__))
 
 ```
 
+### Random Strings
+
+```ruby
+Arroyo::RandomString.random_string :chars
+#> "KvnVAnd3rxHvw1ziikvz6nG0sPeS7c"
+Arroyo::RandomString.random_string :chars, :length => 12, :symbols => true
+#> "jd-X3C9XHb%e"
+Arroyo::RandomString.random_string :chars, :length => 12, :upper_letters_only => true
+#> "IOEDTKEFOWUW"
+Arroyo::RandomString.random_string :uuid
+#> "24a58f79-33ae-4a5d-9a1c-37cda2080bc8"
+Arroyo::RandomString.random_string :guid
+#> "e628c8e9-38fa-4e89-985a-9f96eb6e368d"
+Arroyo::RandomString.random_string :hex
+#> "ed5693d8b28089f81144621336357dc7aa60cd9c84e69e41"
+Arroyo::RandomString.random_string :hex, :length => 8
+#> "d3621e17ba8fb9e4"
+
+```
+
+### File Size Helpers
+
+Monkey-patches the `Integer` class
+
+```ruby
+5.MB
+#> 5242880
+13.GB
+#> 13958643712
+```
+
 ## TODO
 
 [ ] - Date extensions from Rails [PR 24930](https://github.com/rails/rails/pull/24930/files#diff-bb8f439dae4f26019960ef37b2dd1fd3). [Sequel](http://sequel.jeremyevans.net/rdoc/files/doc/dataset_filtering_rdoc.html) supports Range `where` clauses
 [ ] - [PowerCore](https://github.com/arturoherrero/powercore), or [PowerPack](https://github.com/bbatsov/powerpack)
 [ ] - [Pretty Backtrace](https://github.com/ko1/pretty_backtrace)
 [ ] - [Haikuinator](https://github.com/usmanbashir/haikunator)
+[ ] - [Nifty-Utils](https://github.com/atech/nifty-utils)
+
 ## Usage
 
 DATA constant - https://github.com/thoughtbot/til/blob/master/ruby/the-data-constant.md
