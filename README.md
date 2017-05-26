@@ -6,7 +6,7 @@ other random bits culled from multiple sources.
 Arroyo packages
 
 - [Timerizer](https://github.com/kylewlacy/timerizer)
-- [Github-ds](https://github.com/github/github-ds) for [Resiliance](https://johnnunemaker.com/resilience-in-ruby/)
+- [Github-ds](https://github.com/github/github-ds) for [Resiliancy](https://johnnunemaker.com/resilience-in-ruby/)
 - [Backtrace Shortener](https://github.com/philc/backtrace_shortener) - Modified version of the backtrace_shortener gem
 
 ## Installation
@@ -15,6 +15,8 @@ Add this line to your application's Gemfile:
 
 ```ruby
 gem 'arroyo'
+# or
+gem "arroyo", :git => 'git@github.com:marshallmick007/arroyo.git', :submodules => true
 ```
 
 And then execute:
@@ -67,22 +69,62 @@ Arroyo::RandomString.random_string :hex, :length => 8
 
 ### File Size Helpers
 
-Monkey-patches the `Integer` class
+Monkey-patches the `Numeric` class. Converts an integer, float, etc to the proper
+representation of the number of bytes
 
 ```ruby
-5.MB
-#> 5242880
+4.12.MB
+#> 4320133.12
 13.GB
 #> 13958643712
 ```
 
+### Url Parser
+
+Adds a wrapper around `URI.parse`
+
+```ruby
+u = Arroyo::Url.create("www.test.com")
+u.ok?
+#> true
+u.value
+#> #<URI::HTTP http://www.test.com>
+u.host
+#> www.test.com
+u.tld
+#> com
+w = u.remove_www
+w.host
+#> test.com
+```
+
+`Arroyo::Url` takes an optional hash of additional settings that the
+`create` method will use when constructing a URL. The defaults for this
+hash are:
+
+```ruby
+DEFAULT_OPTS = {
+  :scheme => 'http',
+  :strict => false,
+  :strip_www => false
+}
+```
+
+`:strict` will cause the result to fail if the host name supplied does
+not look like an internet address (eg: domain.tld, www.domain.co.tld,
+etc)
+
+## Version Info
+- *0.1.1* - Add support for passing an options hash to
+  `Arroyo::Url.create`
+
 ## TODO
 
-[ ] - Date extensions from Rails [PR 24930](https://github.com/rails/rails/pull/24930/files#diff-bb8f439dae4f26019960ef37b2dd1fd3). [Sequel](http://sequel.jeremyevans.net/rdoc/files/doc/dataset_filtering_rdoc.html) supports Range `where` clauses
-[ ] - [PowerCore](https://github.com/arturoherrero/powercore), or [PowerPack](https://github.com/bbatsov/powerpack)
-[ ] - [Pretty Backtrace](https://github.com/ko1/pretty_backtrace)
-[ ] - [Haikuinator](https://github.com/usmanbashir/haikunator)
-[ ] - [Nifty-Utils](https://github.com/atech/nifty-utils)
+- [ ] Date extensions from Rails [PR 24930](https://github.com/rails/rails/pull/24930/files#diff-bb8f439dae4f26019960ef37b2dd1fd3). [Sequel](http://sequel.jeremyevans.net/rdoc/files/doc/dataset_filtering_rdoc.html) supports Range `where` clauses
+- [ ] [PowerCore](https://github.com/arturoherrero/powercore), or [PowerPack](https://github.com/bbatsov/powerpack)
+- [ ] [Pretty Backtrace](https://github.com/ko1/pretty_backtrace)
+- [ ] [Haikuinator](https://github.com/usmanbashir/haikunator)
+- [ ] [Nifty-Utils](https://github.com/atech/nifty-utils)
 
 ## Usage
 

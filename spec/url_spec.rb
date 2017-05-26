@@ -2,44 +2,94 @@ require "spec_helper"
 
 describe Arroyo::Url do
   describe 'create' do
-    it "creates a valid url from a plain string" do
+    it "creates a valid url from a plain string (loose)" do
       u = Arroyo::Url.create("test")
       expect(u.ok?).to be true
     end
 
-    it "creates a valid url from a plain domain" do
+    it "creates a valid url from a plain domain (loose)" do
       u = Arroyo::Url.create("test.com")
       expect(u.ok?).to be true
     end
 
-    it "creates a valid url from a www.domain" do
+    it "creates a valid url from a www.domain (loose)" do
       u = Arroyo::Url.create("www.domain.tld")
       expect(u.ok?).to be true
     end
 
-    it "creates a valid url from a domain with http scheme" do
+    it "creates a valid url from a domain with http scheme (loose)" do
       u = Arroyo::Url.create("http://test.com")
       expect(u.ok?).to be true
     end
 
-    it "creates a valid url from a domain with https scheme" do
+    it "creates a valid url from a domain with https scheme (loose)" do
       u = Arroyo::Url.create("https://test.com")
       expect(u.ok?).to be true
     end
 
-    it "does not create a domain with a nil" do
+    it "does not create a domain with a nil (loose)" do
       u = Arroyo::Url.create(nil)
       expect(u.ok?).to be false
     end
 
-    it "does not create a domain with an empty string" do
+    it "does not create a domain with an empty string (loose)" do
       u = Arroyo::Url.create("")
       expect(u.ok?).to be false
     end
 
 
-    it "does not create a domain with an Integer" do
+    it "does not create a domain with an Integer (loose)" do
       u = Arroyo::Url.create(1)
+      expect(u.ok?).to be false
+    end
+    
+    it "creates a valid url from a plain string (strict)" do
+      u = Arroyo::Url.create("test", { :strict => true})
+      expect(u.ok?).to be false
+    end
+
+    it "creates a valid url from a plain domain (strict)" do
+      u = Arroyo::Url.create("test.com", { :strict => true})
+      expect(u.ok?).to be true
+    end
+
+    it "creates a valid url from a www.domain (strict)" do
+      u = Arroyo::Url.create("www.domain.tld", { :strict => true})
+      expect(u.ok?).to be true
+    end
+
+    it "creates a valid url from a domain with http scheme (strict)" do
+      u = Arroyo::Url.create("http://test.com", { :strict => true})
+      expect(u.ok?).to be true
+    end
+
+    it "creates a valid url from a domain with https scheme (strict)" do
+      u = Arroyo::Url.create("https://test.com", { :strict => true})
+      expect(u.ok?).to be true
+    end
+    
+    it "creates a valid url from an ip address (strict)" do
+      u = Arroyo::Url.create("1.230.3.40", { :strict => true})
+      expect(u.ok?).to be true
+    end
+    
+    it "creates a valid url with a long tld (strict)" do
+      u = Arroyo::Url.create("www.example.co.highway", { :strict => true})
+      expect(u.ok?).to be true
+    end
+
+    it "does not create a domain with a nil (strict)" do
+      u = Arroyo::Url.create(nil, { :strict => true})
+      expect(u.ok?).to be false
+    end
+
+    it "does not create a domain with an empty string (strict)" do
+      u = Arroyo::Url.create("", { :strict => true})
+      expect(u.ok?).to be false
+    end
+
+    it "does not create a domain with an Integer (strict)" do
+      u = Arroyo::Url.create(1, { :strict => true})
       expect(u.ok?).to be false
     end
   end

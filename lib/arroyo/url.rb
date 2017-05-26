@@ -1,12 +1,20 @@
 module Arroyo
 
   class Url
+    DOMAIN_NAME_REGEX = /\A[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z0-9]{2,12}\z/
+    DEFAULT_SCHEME = 'http'
+    DEFAULT_OPTS = {
+      :scheme => 'http',
+      :strict => false,
+      :strip_www => false
+    }
+    
     attr_reader :value
 
-    DEFAULT_SCHEME = 'http'
-
-    def initialize(uri)
+    def initialize(uri, opts={})
       @value = uri
+      @strict = false
+      @opts = DEFAULT_OPTS.merge(opts)
     end
 
     def ok?
@@ -47,21 +55,45 @@ module Arroyo
       Result.new { @value.to_s }.value { nil }
     end
 
-    def self.create(url)
-      r = Result.new { try_create_uri(url) }
-      Arroyo::Url.new( r.value { nil } )
+    def self.create(url, opts={})
+      opts = DEFAULT_OPTS.merge(opts)
+      r = Result.new { try_create_url(url, opts) }
+      Arroyo::Url.new( r.value { nil }, opts )
     end
 
-    def self.parse_host(url)
-      create(url).host
+    def self.parse_host(url, opts={})
+      create(url,opts).host
     end
     
-    def self.try_create_uri(url)
-      if url == ''
-        raise "Invalid input"
+    def self.try_create_url(url, opts={})
+      validate_try_create_params!(url)
+      if url.is_a? URI
+        u = url
+      elsif url.is_a? Arroyo::Url
+        raise 'Invalid Arroyo:Url supplied' unless url.ok?
+        u = url.value
+      else
+        url = "#{DEFAULT_SCHEME}://#{url}" unless url.start_with?('http')
+        u = URI.parse(url)
       end
-      url = "#{DEFAULT_SCHEME}://#{url}" unless url.start_with?('http')
-      URI.parse(url)
+
+      if opts[:strip_www]
+        u.host = u.host.sub(/^www\./, '')
+      end
+
+      if !opts[:strict] || u.host =~ DOMAIN_NAME_REGEX
+        return u
+      end
+
+      raise "Invalid host name format: [#{u.host}]"
+    end
+
+    def self.validate_try_create_params!(url)
+      if url.nil?
+        raise 'Nil input found'
+      elsif url.is_a? String
+        raise "Invalid input found '#{url}'"  if url == ''
+      end
     end
   end
 end

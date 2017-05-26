@@ -2,7 +2,7 @@
 # @example
 #   4.MB
 #     => 4096
-class Integer
+class Numeric
   UNIT_BASE = 1024
   @@size_units = [
     { :name => 'KB', weight: UNIT_BASE },
