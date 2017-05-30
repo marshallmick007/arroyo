@@ -8,7 +8,7 @@ module Arroyo
       :strict => false,
       :strip_www => false
     }
-    
+
     attr_reader :value
 
     def initialize(uri, opts={})
@@ -33,6 +33,34 @@ module Arroyo
       }.value { self }
     end
 
+    def add_www
+      return self if !ok?
+      Result.new { 
+        if !has_www?
+          h = "www.#{@value.host}"
+          Arroyo::Url.create( "#{@value.scheme}://#{h}/#{@value.path}")
+        else
+          self
+        end
+      }.value { self }
+
+    end
+
+    def is_http?
+      return false if !ok?
+      /^(http:\/\/).*$/ =~ value.to_s
+    end
+
+    def is_https?
+      return false if !ok?
+      /^(https:\/\/).*$/ =~ value.to_s
+    end
+
+    def has_www?
+      return false if !ok?
+      /^(https?:\/\/www).*$/ =~ value.to_s
+    end
+
     # Attempts to locate the Top Level Domain
     # for the current Url. If more than one dot
     # is found, then the last two segments are taken
@@ -52,6 +80,7 @@ module Arroyo
     end
 
     def to_s
+      return nil if !ok?
       Result.new { @value.to_s }.value { nil }
     end
 
@@ -64,7 +93,7 @@ module Arroyo
     def self.parse_host(url, opts={})
       create(url,opts).host
     end
-    
+
     def self.try_create_url(url, opts={})
       validate_try_create_params!(url)
       if url.is_a? URI
