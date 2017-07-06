@@ -6,8 +6,10 @@ other random bits culled from multiple sources.
 Arroyo packages
 
 - [Timerizer](https://github.com/kylewlacy/timerizer)
+- [relative_time](https://github.com/davydovanton/relative_time)
 - [Github-ds](https://github.com/github/github-ds) for [Resiliancy](https://johnnunemaker.com/resilience-in-ruby/)
 - [Backtrace Shortener](https://github.com/philc/backtrace_shortener) - Modified version of the backtrace_shortener gem
+
 
 ## Installation
 

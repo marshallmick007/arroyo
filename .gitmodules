@@ -4,3 +4,6 @@
 [submodule "lib/github-ds"]
 	path = lib/github-ds
 	url = https://github.com/github/github-ds.git
+[submodule "lib/relative_time"]
+	path = lib/relative_time
+	url = https://github.com/davydovanton/relative_time.git
