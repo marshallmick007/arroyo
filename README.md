@@ -117,7 +117,6 @@ not look like an internet address (eg: domain.tld, www.domain.co.tld,
 etc)
 
 ## Version Info
-- *0.1.4* - Added `relative_time`
 - *0.1.3* - Add `remove_www`, `is_http?`, `is_https?` methods to
   `Arroyo::Url` class
 - *0.1.1* - Add support for passing an options hash to
