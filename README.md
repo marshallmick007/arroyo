@@ -6,7 +6,6 @@ other random bits culled from multiple sources.
 Arroyo packages
 
 - [Timerizer](https://github.com/kylewlacy/timerizer)
-- [relative_time](https://github.com/davydovanton/relative_time)
 - [Github-ds](https://github.com/github/github-ds) for [Resiliancy](https://johnnunemaker.com/resilience-in-ruby/)
 - [Backtrace Shortener](https://github.com/philc/backtrace_shortener) - Modified version of the backtrace_shortener gem
 
@@ -30,6 +29,20 @@ Or install it yourself as:
     $ gem install arroyo
 
 ## Features
+
+### Configuration
+
+Arroyo offers a global configuration pattern
+
+```ruby
+Arroyo.configure do |config|
+  config.app_root = '/path/to/app/root'
+end
+```
+
+Supported options are:
+
+- `app_root` : A path to your applications root directory
 
 ### Backtrace Shortener
 
@@ -66,6 +79,8 @@ Arroyo::RandomString.random_string :hex
 #> "ed5693d8b28089f81144621336357dc7aa60cd9c84e69e41"
 Arroyo::RandomString.random_string :hex, :length => 8
 #> "d3621e17ba8fb9e4"
+Arroyo::RandomString.guid
+#> "84ffe4f3-91ba-4ba2-aee2-5c1cf1305889"
 
 ```
 
@@ -116,7 +131,41 @@ DEFAULT_OPTS = {
 not look like an internet address (eg: domain.tld, www.domain.co.tld,
 etc)
 
+### Human / Relative Times
+
+```ruby
+Arroyo::HumanTime.humanize(time)
+#> "4 minutes ago"
+```
+
+### Environment
+
+Useful to pull information about a deploy of an application.
+It will try to fetch the git sha of the deployed application
+by either inspecting the .git folder on a server, if available,
+or by reading the Capistrano REVISION file.
+
+If Arroyo could determine a git sha hash, the `deployed?` property
+will be `true`.
+
+Arroyo reviews the `RACK_ENV` environment variable to understand if the
+application is in production mode or development mode
+
+```ruby
+Arroyo.environment
+#> #<Arroyo::Environment:0x005615faab6920 @env=:development, @deploy_version="ee2ec43", @deploy_date="2017-07-05 21:47:06 -0600\n5183ad7", @deploy_mode=:git>
+Arroyo.environment.dev?
+#> true
+Arroyo.environment.prod?
+#> false
+Arroyo.environment.deployed?
+#> false
+```
+
+
 ## Version Info
+- *0.1.6* - Added `Arroyo::Configuration`, `RandomString.guid` convienence
+  method, and `Arroyo::HumanTime`
 - *0.1.3* - Add `remove_www`, `is_http?`, `is_https?` methods to
   `Arroyo::Url` class
 - *0.1.1* - Add support for passing an options hash to

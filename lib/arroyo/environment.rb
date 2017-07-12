@@ -28,6 +28,10 @@ module Arroyo
       @deploy_mode
     end
 
+    def app_root
+      Arroyo.configuration.app_root
+    end
+
     def to_json
       {
         :environment => @env,
@@ -43,9 +47,10 @@ module Arroyo
     private
   
     def set_app_version
-      if File.exists? CAPISTRANO_REVISION_FILE
-        @deploy_version = File.read(CAPISTRANO_REVISION_FILE).strip
-        @deploy_date = File.mtime(REVISION_FILE).strftime('%F %r')
+      rev_file = compute_capistrano_revision_file
+      if File.exists? rev_file
+        @deploy_version = File.read(rev_file).strip
+        @deploy_date = File.mtime(rev_file).strftime('%F %r')
         @deploy_mode = :capistrano
       else
         s = `git log HEAD --pretty=format:%h^%ci`.strip
@@ -55,11 +60,9 @@ module Arroyo
           @deploy_mode = :git
         end
       end
-    rescue e
+    rescue StandardError => e
       warn 'Unable to locate app deploy info'
       warn e.message
-      #app[:error] = e.message
-      #app
     end
 
     def coerce_environment
@@ -68,6 +71,14 @@ module Arroyo
         env = ENV['RACK_ENV'].to_sym
       end
       env
+    end
+
+    def compute_capistrano_revision_file
+      if Arroyo.configuration.has_app_root?
+        File.join( Arroyo.configuration.app_root, CAPISTRANO_REVISION_FILE )
+      else
+        CAPISTRANO_REVISION_FILE
+      end
     end
   end
 end

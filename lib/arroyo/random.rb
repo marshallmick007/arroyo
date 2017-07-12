@@ -19,6 +19,10 @@ module Arroyo
         SecureRandom.hex(opts[:length] || 24)
       end
     end
+    
+    def self.guid
+      random_string :guid
+    end
 
     def self.generate_chars(options = {})
       options[:length]  ||= 30
