@@ -4,3 +4,6 @@
 [submodule "lib/github-ds"]
 	path = lib/github-ds
 	url = https://github.com/github/github-ds.git
+[submodule "lib/mini_cache"]
+	path = lib/mini_cache
+	url = https://github.com/djreimer/mini_cache

@@ -8,7 +8,7 @@ Arroyo packages
 - [Timerizer](https://github.com/kylewlacy/timerizer)
 - [Github-ds](https://github.com/github/github-ds) for [Resiliancy](https://johnnunemaker.com/resilience-in-ruby/)
 - [Backtrace Shortener](https://github.com/philc/backtrace_shortener) - Modified version of the backtrace_shortener gem
-
+- [mini_cache](https://github.com/djreimer/mini_cache)
 
 ## Installation
 
@@ -164,6 +164,7 @@ Arroyo.environment.deployed?
 
 
 ## Version Info
+- *0.1.7* - Added `mini_cache`
 - *0.1.6* - Added `Arroyo::Configuration`, `RandomString.guid` convienence
   method, and `Arroyo::HumanTime`
 - *0.1.3* - Add `remove_www`, `is_http?`, `is_https?` methods to

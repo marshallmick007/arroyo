@@ -44,7 +44,7 @@ describe Arroyo::Url do
     end
     
     it "creates a valid url from a plain string (strict)" do
-      u = Arroyo::Url.create("test", { :strict => true})
+      u = Arroyo::Url.create("test", { :strict => true })
       expect(u.ok?).to be false
     end
 

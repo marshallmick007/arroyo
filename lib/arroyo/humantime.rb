@@ -1,6 +1,8 @@
 module Arroyo
   module HumanTime
     def self.humanize(date_to, date_from = Time.now.utc)
+      date_to = date_from unless date_to
+
       diff = date_from.to_time - date_to.to_time
       
       is_past = diff >= 0
