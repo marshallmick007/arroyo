@@ -173,7 +173,7 @@ Arroyo.environment.deployed?
   `Arroyo::Url.create`
 
 ## TODO
-
+- [ ] Add `retryable` from [https://github.com/kamui/retriable](https://github.com/kamui/retriable)
 - [ ] Date extensions from Rails [PR 24930](https://github.com/rails/rails/pull/24930/files#diff-bb8f439dae4f26019960ef37b2dd1fd3). [Sequel](http://sequel.jeremyevans.net/rdoc/files/doc/dataset_filtering_rdoc.html) supports Range `where` clauses
 - [ ] [PowerCore](https://github.com/arturoherrero/powercore), or [PowerPack](https://github.com/bbatsov/powerpack)
 - [ ] [Pretty Backtrace](https://github.com/ko1/pretty_backtrace)
