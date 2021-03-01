@@ -37,7 +37,8 @@ module Arroyo
         :minutes => [45, :hours],    # minutes to hour
         :hours => [22, :days],       # hours to day
         :days => [26, :months],      # days to month
-        :months => [11, :years]      # months to year
+        :months => [11, :years],     # months to year
+        :years => [1000, :years]
       }
 
       def self.thresholds
